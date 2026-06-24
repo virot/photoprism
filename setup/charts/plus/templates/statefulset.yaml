@@ -132,6 +132,8 @@ spec:
             - containerPort: 2342
               name: http
           volumeMounts:
+            - name: run
+              mountPath: /run
             {{- if .Values.persistence.originals.enabled }}
             - name: originals
               mountPath: {{ .Values.persistence.originals.mountPath }}
@@ -141,6 +143,9 @@ spec:
               mountPath: {{ .Values.persistence.storage.mountPath }}
             {{- end }}
       volumes:
+        - name: run
+          emptyDir:
+            medium: Memory
         {{- if .Values.persistence.originals.enabled }}
         - name: originals
           {{- if and .Values.persistence.originals.enabled .Values.persistence.originals.nfs.enabled }}
